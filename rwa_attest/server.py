@@ -215,7 +215,16 @@ TOOLS: dict[str, dict[str, Any]] = {
 # Server
 # ──────────────────────────────────────────────────────────────────────────────
 
-server = Server("rwa-attest")
+server = Server(
+    name="rwa-attest",
+    version=__version__,
+    instructions=(
+        "Cryptographically verifiable RWA trust attestation via Model Context Protocol. "
+        "Multi-chain DeFi data (Ethereum default), free 5-dimension positioning scorecard, "
+        "and ed25519-signed attestations for 8 top RWA protocols. Built by Tashoma Vilini."
+    ),
+    website_url="https://github.com/defibabylon/rwa-attest",
+)
 rate_limiter = RateLimiter(max_per_minute=30, max_per_day=1000)
 # Single-client by default for stdio transport — HTTP transport would use session ID
 CLIENT_ID = "stdio"
