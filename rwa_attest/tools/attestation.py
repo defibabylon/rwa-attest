@@ -107,9 +107,11 @@ def get_signed_rwa_attestation(protocol_slug: str | None = None) -> dict:
             ],
         },
         "proof_provenance": (
-            "demo: schema + cryptography are production-grade; proof_value contents "
-            "are placeholders until Sprint 3 wires real fetchers (oracle prices, "
-            "contract bytecode, audit URLs)."
+            "production: real-fetched. Bytecode + SHA256 from Ethereum RPC (eth_getCode). "
+            "ERC20 metadata via eth_call (name/symbol/decimals/totalSupply). Live USD "
+            "price + 24h change via CoinGecko (N/A for permissioned tokens not on public "
+            "markets). Audit URL liveness via HTTPS HEAD with GET fallback. Each proof "
+            "element carries its source_url + inputs_hash for independent re-verification."
         ),
         "upsell": (
             "For a real proof-grade attestation of a specific protocol or a custom "
