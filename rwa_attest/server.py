@@ -38,6 +38,7 @@ from rwa_attest.tools.attestation import (
     list_signed_rwa_attestations,
     get_signed_rwa_attestation,
     get_signed_rwa_attestation_full,
+    get_onchain_anchor,
 )
 
 
@@ -207,6 +208,27 @@ TOOLS: dict[str, dict[str, Any]] = {
             "additionalProperties": False,
         },
         "fn": lambda args: get_signed_rwa_attestation_full(args.get("protocol_slug")),
+    },
+    "get_onchain_anchor": {
+        "description": (
+            "On-chain anchor for a signed RWA attestation. Returns the Base tx hash + "
+            "block + Basescan explorer URL so any caller can independently fetch the "
+            "tx, decode the calldata, and verify the attestation's content hash matches "
+            "what's permanently anchored on-chain. Returns `anchored: false` if the "
+            "attestation hasn't been anchored yet (the off-chain ed25519 signatures "
+            "remain fully valid either way)."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "protocol_slug": {
+                    "type": "string",
+                    "description": "Optional. See list_signed_rwa_attestations for available slugs. Defaults to most recent.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "fn": lambda args: get_onchain_anchor(args.get("protocol_slug")),
     },
 }
 

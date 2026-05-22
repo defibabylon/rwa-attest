@@ -131,3 +131,55 @@ def get_signed_rwa_attestation_full(protocol_slug: str | None = None) -> dict:
         return safe_response(json.loads(safe_read(path)))
     except Exception as e:
         return safe_response({"error": "attestation unavailable", "detail": type(e).__name__})
+
+
+def get_onchain_anchor(protocol_slug: str | None = None) -> dict:
+    """On-chain anchor metadata for one attestation. If anchored, returns the
+    Base tx hash + block + explorer URL so any caller can independently verify
+    the attestation's content hash matches what's on-chain. Returns a clear
+    'not_anchored_yet' state if the attestation hasn't been anchored."""
+    path, err = _resolve_path(protocol_slug)
+    if err:
+        return safe_response({"error": err})
+    if path not in ALLOWED_FILE_READS:
+        return safe_response({"error": "attestation path not on server allowlist"})
+    try:
+        att = json.loads(safe_read(path))
+    except Exception as e:
+        return safe_response({"error": "attestation unavailable", "detail": type(e).__name__})
+
+    anchor = att.get("onchain_anchor")
+    if not anchor:
+        return safe_response({
+            "protocol_slug": att.get("protocol_slug"),
+            "attestation_id": att.get("attestation_id"),
+            "anchored": False,
+            "note": (
+                "This attestation has not yet been anchored on-chain. The signed "
+                "attestation itself is fully valid via the embedded ed25519 keys + "
+                "canonical JSON; on-chain anchoring is an additional credibility layer "
+                "added on demand."
+            ),
+        })
+
+    return safe_response({
+        "protocol_slug": att.get("protocol_slug"),
+        "attestation_id": att.get("attestation_id"),
+        "anchored": True,
+        "chain": anchor.get("chain"),
+        "chain_id": anchor.get("chain_id"),
+        "tx_hash": anchor.get("tx_hash"),
+        "block_number": anchor.get("block_number"),
+        "anchor_wallet": anchor.get("anchor_wallet"),
+        "explorer_url": anchor.get("explorer_url"),
+        "attestation_content_hash_anchored": anchor.get("attestation_content_hash_anchored"),
+        "policy_content_hash_anchored": anchor.get("policy_content_hash_anchored"),
+        "calldata_version": anchor.get("calldata_version"),
+        "anchored_at_unix": anchor.get("anchored_at"),
+        "verify_steps": [
+            "Fetch the tx via the explorer_url (or any Base RPC)",
+            "Decode the calldata: byte 0 = version (0x01), byte 1 = slug_len, bytes 2.. = slug, then 32 bytes attestation hash, then 32 bytes policy hash",
+            "Compare against get_signed_rwa_attestation_full(protocol_slug) — the attestation_content_hash recomputed from its canonical body must match the on-chain value",
+            "Verify the orchestrator ed25519 signature against the canonical body",
+        ],
+    })
