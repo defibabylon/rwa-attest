@@ -275,11 +275,11 @@ async def call_tool(name: str, arguments: dict | None) -> list[types.TextContent
     return [types.TextContent(type="text", text=json.dumps(result, indent=2, default=str))]
 
 
-async def amain():
+async def run_stdio():
+    """stdio transport — for local AI assistants (Claude Desktop, Cursor, Cline)."""
     async with stdio_server() as (read_stream, write_stream):
         await server.run(
-            read_stream,
-            write_stream,
+            read_stream, write_stream,
             InitializationOptions(
                 server_name="rwa-attest",
                 server_version=__version__,
@@ -291,8 +291,58 @@ async def amain():
         )
 
 
+async def run_http(host: str, port: int):
+    """Streamable-HTTP transport — for hosted listings (Smithery, etc.)."""
+    import contextlib
+    from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
+    from starlette.applications import Starlette
+    from starlette.routing import Mount
+    from starlette.responses import JSONResponse
+    from starlette.requests import Request
+    import uvicorn
+
+    session_manager = StreamableHTTPSessionManager(
+        app=server,
+        stateless=True,        # Each request is independent — no server-side session state
+        json_response=False,   # SSE streaming for tool responses
+    )
+
+    async def health(_: Request) -> JSONResponse:
+        return JSONResponse({"status": "ok", "server": "rwa-attest", "version": __version__})
+
+    @contextlib.asynccontextmanager
+    async def lifespan(_app: Starlette):
+        async with session_manager.run():
+            yield
+
+    app = Starlette(
+        routes=[Mount("/mcp", app=session_manager.handle_request)],
+        lifespan=lifespan,
+    )
+    app.add_route("/healthz", health, methods=["GET"])
+    app.add_route("/", health, methods=["GET"])
+
+    logger.info(f"rwa-attest HTTP transport: http://{host}:{port}/mcp")
+    config = uvicorn.Config(app, host=host, port=port, log_level="info", access_log=False)
+    await uvicorn.Server(config).serve()
+
+
 def main():
-    asyncio.run(amain())
+    import argparse, os
+    parser = argparse.ArgumentParser(description="rwa-attest MCP server")
+    parser.add_argument("--transport", choices=["stdio", "http"],
+                        default=os.environ.get("MCP_TRANSPORT", "stdio"),
+                        help="MCP transport (default: stdio)")
+    parser.add_argument("--host", default=os.environ.get("MCP_HOST", "127.0.0.1"),
+                        help="HTTP bind host (http transport only)")
+    parser.add_argument("--port", type=int, default=int(os.environ.get("MCP_PORT", "8090")),
+                        help="HTTP bind port (http transport only)")
+    args = parser.parse_args()
+
+    if args.transport == "http":
+        asyncio.run(run_http(args.host, args.port))
+    else:
+        asyncio.run(run_stdio())
 
 
 if __name__ == "__main__":
