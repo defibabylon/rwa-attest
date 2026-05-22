@@ -2,9 +2,9 @@
 
 **Cryptographically verifiable RWA (Real-World Asset) trust attestation + multi-chain DeFi data + a free protocol positioning scorecard.** Exposed via [Model Context Protocol](https://modelcontextprotocol.io/) so any MCP-capable AI assistant (Claude Desktop, Cursor, Cline, etc.) can call it.
 
-8 signed RWA attestations live: BlackRock BUIDL, Ondo OUSG, Ondo USDY, Maple Finance, Centrifuge Protocol, Hashnote USYC, Superstate, Spiko. Every signature independently verifiable from the embedded ed25519 public keys + canonical JSON.
+8 signed RWA attestations live with **real-fetched proofs**: BlackRock BUIDL, Ondo OUSG, Ondo USDY, Maple Finance, Centrifuge Protocol, Hashnote USYC, Superstate, Spiko. Bytecode + SHA256 from Ethereum RPC, ERC20 metadata via eth_call, live USD prices via CoinGecko, audit URL liveness via HTTPS HEAD/GET. Every signature independently verifiable from the embedded ed25519 public keys + canonical JSON.
 
-Built by **Tashoma Vilini** — DeFi PMM, ex-Liqwid Finance ($81M TVL peak on Cardano).
+Built by **Tashoma Vilini** — DeFi PMM, Liqwid Finance ($81M TVL peak on Cardano).
 
 ---
 
@@ -152,6 +152,6 @@ MIT.
 
 ## Author
 
-**Tashoma Vilini** — DeFi PMM, ex-Liqwid Finance ($81M TVL peak on Cardano).
+**Tashoma Vilini** — DeFi PMM, Liqwid Finance ($81M TVL peak on Cardano).
 
 For a full DeFi positioning teardown, GTM sprint, or custom RWA trust attestation: **DM `@defibabylon` on X**.

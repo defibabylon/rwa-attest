@@ -35,7 +35,7 @@ metadata:
     Ethereum where most RWAs live) and a free protocol positioning scorecard.
     8 signed attestations live for BlackRock BUIDL, Ondo OUSG/USDY, Maple,
     Centrifuge Protocol, Hashnote USYC, Superstate, and Spiko. Every signature
-    independently verifiable. Built by Tashoma Vilini (ex-Liqwid PMM,
+    independently verifiable. Built by Tashoma Vilini (Liqwid Finance co-founder & DeFi PMM,
     $81M TVL on Cardano).
   homepage: https://github.com/defibabylon/rwa-attest
   author: Tashoma Vilini
