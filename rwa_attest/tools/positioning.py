@@ -121,7 +121,7 @@ def score_protocol_positioning(protocol_name: str) -> dict:
         "paid_tier": (
             f"For a full teardown of {scored.get('protocol_name', name)}'s {weakest} gap "
             f"with concrete fix recommendations + competitive positioning analysis, "
-            f"DM @tashomavilini on X."
+            f"DM @defibabylon on X."
         ),
     }
     return safe_response(scored)

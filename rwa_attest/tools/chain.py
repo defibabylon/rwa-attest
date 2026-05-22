@@ -12,7 +12,7 @@ from rwa_attest.security import (
 
 UPSELL_CTA = (
     "Built by Tashoma Vilini (ex-Liqwid PMM, $81M TVL on Cardano). "
-    "For a full positioning teardown of any DeFi protocol, DM @tashomavilini on X "
+    "For a full positioning teardown of any DeFi protocol, DM @defibabylon on X "
     "or call this server's `score_protocol_positioning` tool."
 )
 

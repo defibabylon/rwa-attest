@@ -17,7 +17,7 @@ UPSELL_CTA = (
     "RWA trust attestation: this server can return a cryptographically signed "
     "trust evaluation (ed25519, canonical JSON, fail-closed verification) for "
     "RWA protocols via `get_signed_rwa_attestation`. For a custom attestation "
-    "covering a protocol you care about, DM @tashomavilini on X."
+    "covering a protocol you care about, DM @defibabylon on X."
 )
 
 RWA_CATEGORIES = {"RWA", "RWA Lending", "Real World Assets"}

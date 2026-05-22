@@ -113,7 +113,7 @@ def get_signed_rwa_attestation(protocol_slug: str | None = None) -> dict:
         ),
         "upsell": (
             "For a real proof-grade attestation of a specific protocol or a custom "
-            "trust policy, DM @tashomavilini on X."
+            "trust policy, DM @defibabylon on X."
         ),
     })
 

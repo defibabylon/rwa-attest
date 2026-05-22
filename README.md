@@ -33,7 +33,7 @@ Data source for chain/protocol tools: [DefiLlama public API](https://defillama.c
 
 - **Built for where RWAs actually live.** Most RWA TVL ($15B+) is on Ethereum — BlackRock BUIDL, Ondo OUSG/USDY, Maple, Centrifuge, Hashnote USYC, Superstate, Spiko. This server is RWA-first and Ethereum-default.
 - **Cardano-aware lens.** Author was a Cardano DeFi operator (Liqwid). Cardano's $130M DeFi ecosystem gets equal treatment — including the small but growing RWA presence (KAIO, Mehen).
-- **Free positioning scorecard.** Tell it a protocol name; get a 5-dimension teardown. If the surface-level diagnosis is useful, the upsell path is a paid full teardown — DM `@tashomavilini` on X.
+- **Free positioning scorecard.** Tell it a protocol name; get a 5-dimension teardown. If the surface-level diagnosis is useful, the upsell path is a paid full teardown — DM `@defibabylon` on X.
 - **Verifiable attestations, not vibes.** The RWA attestation tool returns ed25519-signed trust evidence with reproducible canonical JSON. Most DeFi "trust scores" are opaque dashboards. Ours are cryptographically verifiable from the public keys + the policy + the inputs.
 
 ---
@@ -154,4 +154,4 @@ MIT.
 
 **Tashoma Vilini** — DeFi PMM, ex-Liqwid Finance ($81M TVL peak on Cardano).
 
-For a full DeFi positioning teardown, GTM sprint, or custom RWA trust attestation: **DM `@tashomavilini` on X**.
+For a full DeFi positioning teardown, GTM sprint, or custom RWA trust attestation: **DM `@defibabylon` on X**.
