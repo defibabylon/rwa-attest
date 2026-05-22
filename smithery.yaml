@@ -1,0 +1,66 @@
+# Smithery manifest for rwa-attest.
+# Publish: push this directory to a public git repo, then submit via https://smithery.ai
+# or list with the Smithery CLI: `npx @smithery/cli init`.
+
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      anthropicApiKey:
+        type: string
+        title: Anthropic API key (optional)
+        description: >
+          Used only by the `score_protocol_positioning` tool for the free
+          positioning scorecard. The server runs without it (the scorecard
+          falls back to returning raw protocol metadata instead). All other
+          tools work without any API key.
+    additionalProperties: false
+  commandFunction: |-
+    (config) => ({
+      command: 'python',
+      args: ['-m', 'rwa_attest.server'],
+      env: {
+        ...(config.anthropicApiKey ? { ANTHROPIC_API_KEY_FOR_MCP: config.anthropicApiKey } : {}),
+      },
+    })
+
+# Discovery metadata
+metadata:
+  name: rwa-attest
+  displayName: RWA Attest
+  description: >
+    Cryptographically verifiable RWA (Real-World Asset) trust attestation,
+    plus multi-chain DeFi data (TVL, protocols, chain health, defaulting to
+    Ethereum where most RWAs live) and a free protocol positioning scorecard.
+    8 signed attestations live for BlackRock BUIDL, Ondo OUSG/USDY, Maple,
+    Centrifuge Protocol, Hashnote USYC, Superstate, and Spiko. Every signature
+    independently verifiable. Built by Tashoma Vilini (ex-Liqwid PMM,
+    $81M TVL on Cardano).
+  homepage: https://github.com/defibabylon/rwa-attest
+  author: Tashoma Vilini
+  license: MIT
+  keywords:
+    - rwa
+    - real-world-assets
+    - attestation
+    - verifiable
+    - trust
+    - ed25519
+    - ethereum
+    - defi
+    - blackrock-buidl
+    - ondo
+    - maple
+    - centrifuge
+    - hashnote-usyc
+    - superstate
+    - tokenized-treasuries
+    - private-credit
+    - defillama
+    - mcp
+  categories:
+    - defi
+    - data
+    - analysis
+    - security

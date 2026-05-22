@@ -1,0 +1,31 @@
+[project]
+name = "rwa-attest"
+version = "0.2.0"
+description = "Cryptographically verifiable RWA (Real-World Asset) trust attestation + multi-chain DeFi data + free protocol positioning scorecard, exposed as a Model Context Protocol server. Default chain: Ethereum (where most RWAs live)."
+authors = [{ name = "Tashoma Vilini" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+    "requests>=2.28",
+    "anthropic>=0.30",   # optional — only needed for score_protocol_positioning
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+rwa-attest = "rwa_attest.server:main"
+
+[project.urls]
+Homepage = "https://github.com/tashomavilini"
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["rwa_attest*"]
